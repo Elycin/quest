@@ -77,16 +77,6 @@ export class CdkStack extends Stack {
             minCapacity: 0,
         });
 
-        // Add strategies for cost efficiency. Give spot a heavier weight to prefer it.
-        const spotCapacityProviderStrategy: ecs.CapacityProviderStrategy = {
-            capacityProvider: spotCapacity.autoScalingGroupName,
-            weight: 2,
-        };
-        const onDemandCapacityProviderStrategy: ecs.CapacityProviderStrategy = {
-            capacityProvider: onDemandCapacity.autoScalingGroupName,
-            weight: 1,
-        };
-
         // Create the webserver task.
         const applicationTask = new ecs.Ec2TaskDefinition(this, 'ApplicationTask', {});
 
@@ -130,11 +120,16 @@ export class CdkStack extends Stack {
         const applicationService = new ecs_patterns.ApplicationLoadBalancedEc2Service(this, "ApplicationService", {
             cluster: cluster,
             taskDefinition: applicationTask,
-            desiredCount: 1,
+            desiredCount: 3,
             protocol: ApplicationProtocol.HTTPS,
             redirectHTTP: true,
             domainName: `quest.${domainName}`,
             domainZone: domainHostedZone,
+        });
+
+        // Due to a current bug with the binary that is triggered on the index, we have to change the healthcheck.
+        applicationService.targetGroup.configureHealthCheck({
+            path:  '/docker',
         });
 
         // Setting scalability boundaries. Extra credit.
