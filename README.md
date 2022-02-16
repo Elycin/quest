@@ -5,6 +5,9 @@
 - cdk directory - Typescript installation of CDK framework that houses deployment code
   - This will deploy a ECS cluster, while creating a ECR repository to upload an image to, in a configuration that relies on spot instances when available, but will fail over to on-demand when needed.
 
+## Testing Endpoint
+You can test the deployment at https://quest.ely-learning-aws-domain.click/
+
 ## Implementation mindset and reasoning
 - I decided to use CDK as Amazon Products are what I am most familiar with. I have a background in Cloudformation and CDK so I figured it would be best to use CDK to get things done swiftly.
 - I decided to deploy the cluster in to ECS with the help of ECR, this is a great real world scenario and shows my capabilities and understanding.
