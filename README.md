@@ -27,3 +27,6 @@ You can test the deployment at https://quest.ely-learning-aws-domain.click/
 - We could have made a CI/CD process to automatically deploy the CDK stack and run the tests for us.
 - I chose not to do these things out of time constraints.
 - The quest was completed on the aarch64 architecture, you will find x86_64 specific hardcodings to ensure that we are using the proper platform.
+
+## Found Bugs:
+- The package `ca-certitificates` that comes installed by default on the nodejs image is out of date, without updating it, `bin/001` will recieve a SSL certificate error as the issuing authority's root certificate is newer than supported.

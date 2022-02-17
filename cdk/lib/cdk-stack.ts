@@ -69,12 +69,14 @@ export class CdkStack extends Stack {
             minCapacity: 1,
             spotPrice: '0.1',
             spotInstanceDraining: true,
+            machineImage: ecs.EcsOptimizedImage.amazonLinux2(),
         });
         const onDemandCapacity = cluster.addCapacity('ClusterDemandCapacity', {
             instanceType: new ec2.InstanceType("t3.small"),
             desiredCapacity: 0,
             maxCapacity: 1,
             minCapacity: 0,
+            machineImage: ecs.EcsOptimizedImage.amazonLinux2(),
         });
 
         // Create the webserver task.
